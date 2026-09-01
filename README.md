@@ -9,3 +9,7 @@ constitution, or open a fixed-price raise. No bonding curve.
 - 10 lifecycle tests in `test/` (bootstrap, raise, buy caps, spend auth, CEO handover, vote expiry, minority can't pass).
 
 Replaces the Base-deployed v1 (which had the bonding curve + lock machinery). Same brand/token: Sota Minds (MINDS).
+
+## Deployed
+
+Robinhood Chain (chain 4663): `0x03d9C162FA1f477D32CA371aECF077bF04436Df6`
