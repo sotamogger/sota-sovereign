@@ -1,6 +1,17 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.26;
 
+// Sota Minds — a sovereign token for building the SOTA NFT.
+//
+// One CEO holds the pen and spends the treasury. Token holders hold the
+// leash: any of them can propose to replace the CEO, rewrite the
+// constitution, or open a raise, and a simple majority makes it so. Votes
+// are weighted by tokens, snapshotted when the proposal is made, and open
+// for three days. Nothing here is upgradeable except by that vote.
+//
+// Deliberately small. The treasury funds whoever ships the collection; the
+// NFT's fees come back here. Everything else is governance.
+
 import {ERC20} from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import {ERC20Votes} from "@openzeppelin/contracts/token/ERC20/extensions/ERC20Votes.sol";
 import {EIP712} from "@openzeppelin/contracts/utils/cryptography/EIP712.sol";
@@ -46,10 +57,10 @@ contract SotaMinds is ERC20Votes {
         return "mode=timestamp";
     }
 
-    // Raising is kept as simple as possible: an approved raise lets anyone buy
-    // a fixed volume at a fixed price, and a new one replaces what is left of
-    // the old. Swap buy() and the raise fields for a more sophisticated
-    // mechanism (curve, auction, tranches) if the token needs one.
+    // A raise is a window the holders vote open: a fixed volume of new tokens
+    // at a fixed price, first come first served, until it's used up. Opening a
+    // new one wipes whatever the last one left behind. No curve, no games —
+    // you pay the price the holders set, or you wait for a better one.
     function buy() external payable {
         uint256 tokens_out = msg.value * 1e18 / raise_price;
         require(tokens_out <= raise_volume, "exceeds raise");
